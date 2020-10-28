@@ -14,16 +14,18 @@ def concurrent_f():
     result = f(result)
 
 
-# ITERATIONS = 21 # concurrent gives variable results
-ITERATIONS = 20
-result = 3
-start = timer()
-
 if __name__ == '__main__':
+    # ITERATIONS = 21 # concurrent gives variable results
+    ITERATIONS = 20
+    result = 3
+    start = timer()
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=ITERATIONS) as executor:
         futures = [executor.submit(concurrent_f) for i in range(ITERATIONS)]
 
         _ = concurrent.futures.as_completed(futures)
 
     print('Result is very large. Only printing the last 5 digits:', result % 100000)
+    print('Result missing iterations: fˆ(N+1)', f(result) % 100000)
+    print('Result missing iterations: fˆ(N+2)', f(f(result)) % 100000)
     print('Concurrent took: %.2f seconds.' % (timer() - start))
