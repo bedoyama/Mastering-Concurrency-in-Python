@@ -1,7 +1,6 @@
-# ch1/example1.py
+# ch1/example1_sequential.py
 
 from math import sqrt
-import concurrent.futures
 from timeit import default_timer as timer
 
 def is_prime(x):
@@ -36,16 +35,3 @@ print('Result 1:', result)
 print('Took: %.2f seconds.' % (timer() - start))
 
 
-# concurrent
-# comment out to only run sequential
-start = timer()
-result = []
-with concurrent.futures.ProcessPoolExecutor(max_workers=20) as executor:
-    futures = [executor.submit(is_prime, i) for i in input]
-
-    for i, future in enumerate(concurrent.futures.as_completed(futures)):
-        if future.result():
-            result.append(future.result())
-
-print('Result 2:', result)
-print('Took: %.2f seconds.' % (timer() - start))
